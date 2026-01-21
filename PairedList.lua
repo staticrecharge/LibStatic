@@ -1,5 +1,5 @@
 --[[------------------------------------------------------------------------------------------------
-Title:					Paried List
+Title:					Paired List
 Author:					Static_Recharge
 Description:		Object to manage a paired list of choices and values. Mainly for settings menus.
                 If no Values table is passed in the object will become an enumerated list instead.
@@ -21,6 +21,7 @@ PL                                                - Object containing all functi
 --[[------------------------------------------------------------------------------------------------
 Globals
 ------------------------------------------------------------------------------------------------]]--
+-- for use with PL:Sort
 LIBSTATIC_LIST_SORT_MIN = 1
 LIBSTATIC_LIST_SORT_MAX = 4
 LIBSTATIC_LIST_SORT_CHOICES_ASCENDING = 1

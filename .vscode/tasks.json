@@ -6,7 +6,7 @@
     {
       "label": "copy",
       "type": "shell",
-      "command": "robocopy 'E:\\Documents\\Add-on Dev\\LibStatic' 'E:\\Documents\\Elder Scrolls Online\\live\\AddOns\\LibStatic' LibStatic.addon LibStatic.lua PairedList.lua changelog.readme",
+      "command": "robocopy 'E:\\Documents\\Add-on Dev\\LibStatic' 'E:\\Documents\\Elder Scrolls Online\\live\\AddOns\\LibStatic' Chat.lua LibStatic.addon LibStatic.lua PairedList.lua Timer.lua changelog.readme",
       "problemMatcher": [],
       "group": {
         "kind": "build",
