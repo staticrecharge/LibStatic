@@ -114,7 +114,9 @@ function CHAT:Msg(...)
   for i, v in ipairs(Args) do
     if type(v) == "table" then
       for j, k in ipairs(v) do
-        sendMsg(LibStatic:StringConvert(k))
+        if type(v) ~= "table" then
+          sendMsg(LibStatic:StringConvert(k))
+        end
       end
     else
       sendMsg(LibStatic:StringConvert(v))
