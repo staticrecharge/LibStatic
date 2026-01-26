@@ -59,7 +59,7 @@ function LS:Initialize()
 	self.chatTextColor = "|cFFFFFF"
 	self.chatSuffix = "|r"
 
-  SLASH_COMMANDS["/lstest"] = function(...) self:Test(...) end
+  --SLASH_COMMANDS["/lstest"] = function(...) self:Test(...) end
 
   self.initialized = true
 end
@@ -132,11 +132,11 @@ end
 --[[------------------------------------------------------------------------------------------------
 LS:ChatNew(Options)
 Inputs:				Options                             - Table containing parameters
-                                                    - (optional) addonIdentifier
-                                                    - (optional) Hexcode color
-                                                    - (optional) Hexcode color
-                                                    - (optional) bool that enables chat
-                                                    - (optional) bool that enables debug
+              ├─ .addonIdentifier                   - (optional) addonIdentifier
+              ├─ .prefixColor                       - (optional) Prefix Hexcode color
+              ├─ .textColor                         - (optional) Chat Hexcode color
+              ├─ .chatEnabled                       - (optional) bool that enables chat
+              └─ .debugEnabled                      - (optional) bool that enables debug
 Outputs:			None
 Description:	Returns a new Chat object.
 ------------------------------------------------------------------------------------------------]]--

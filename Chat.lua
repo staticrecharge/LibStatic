@@ -29,11 +29,11 @@ local CHAT = ZO_InitializingObject:Subclass()
 --[[------------------------------------------------------------------------------------------------
 CHAT:Initialize(Options)
 Inputs:				Options                             - Table containing parameters
-                                                    - (optional) addonIdentifier
-                                                    - (optional) Hexcode color
-                                                    - (optional) Hexcode color
-                                                    - (optional) bool that enables chat
-                                                    - (optional) bool that enables debug
+              ├─ .addonIdentifier                   - (optional) addonIdentifier
+              ├─ .prefixColor                       - (optional) Prefix Hexcode color
+              ├─ .textColor                         - (optional) Chat Hexcode color
+              ├─ .chatEnabled                       - (optional) bool that enables chat
+              └─ .debugEnabled                      - (optional) bool that enables debug
 Outputs:			None
 Description:	Initializes the object with given inputs.
 <<prefixColor>>[<<addonIdentifier>>]: <<textColor>><<message>>
@@ -142,11 +142,11 @@ end
 --[[------------------------------------------------------------------------------------------------
 LibStaticChatInitialize()
 Inputs:				Options                             - Table containing parameters
-                                                    - (optional) addonIdentifier
-                                                    - (optional) Hexcode color
-                                                    - (optional) Hexcode color
-                                                    - (optional) bool that enables chat
-                                                    - (optional) bool that enables debug
+              ├─ .addonIdentifier                   - (optional) addonIdentifier
+              ├─ .prefixColor                       - (optional) Prefix Hexcode color
+              ├─ .textColor                         - (optional) Chat Hexcode color
+              ├─ .chatEnabled                       - (optional) bool that enables chat
+              └─ .debugEnabled                      - (optional) bool that enables debug
 Outputs:			CHAT                                - The new object created.
 Description:	Global function to create a new instance of this object.
 ------------------------------------------------------------------------------------------------]]--
