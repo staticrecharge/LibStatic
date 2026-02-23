@@ -1,6 +1,6 @@
-## Title: LibStatic 0.0.3
+## Title: LibStatic
 ## Author: |cFF0000Static_Recharge|r
-## Version: 1
+## Version: 1.0.1
 ## AddOnVersion: 1
 ## APIVersion: 101048
 ## IsLibrary: true
@@ -12,7 +12,7 @@
 
 # You can read the full terms at https://account.elderscrollsonline.com/add-on-terms
 
+LibStatic.lua
 Chat.lua
 PairedList.lua
 Timer.Lua
-LibStatic.lua

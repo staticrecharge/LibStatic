@@ -3,7 +3,7 @@ Title:					Timer
 Author:					Static_Recharge
 Description:		Object to manage a timer
 
-TIMER                                             - Object containing all functions, tables, variables, constants and other data managers.
+Timer                                             - Object containing all functions, tables, variables, constants and other data managers.
 ├─ :IsInitialized()                               - Returns true if the object has been successfully initialized.
 ├─ :IsRunning()                                   - Returns true if the timer is running.
 ├─ :IsPaused()                                    - Returns true if the timer is paused.
@@ -26,26 +26,26 @@ local EM = EVENT_MANAGER
 Globals
 ------------------------------------------------------------------------------------------------]]--
 -- timer types
-LIBSTATIC_TIMER_TYPE_MIN = 1
-LIBSTATIC_TIMER_TYPE_MAX = 2
-LIBSTATIC_TIMER_TYPE_COUNT_UP = 1
-LIBSTATIC_TIMER_TYPE_COUNT_DOWN = 2
+LIBSTATIC_Timer_TYPE_MIN = 1
+LIBSTATIC_Timer_TYPE_MAX = 2
+LIBSTATIC_Timer_TYPE_COUNT_UP = 1
+LIBSTATIC_Timer_TYPE_COUNT_DOWN = 2
 
 -- timer update intervals (ms)
-LIBSTATIC_TIMER_UPDATE_INTERVAL_100 = 100
-LIBSTATIC_TIMER_UPDATE_INTERVAL_200 = 200
-LIBSTATIC_TIMER_UPDATE_INTERVAL_500 = 500
-LIBSTATIC_TIMER_UPDATE_INTERVAL_1000 = 1000
+LIBSTATIC_Timer_UPDATE_INTERVAL_100 = 100
+LIBSTATIC_Timer_UPDATE_INTERVAL_200 = 200
+LIBSTATIC_Timer_UPDATE_INTERVAL_500 = 500
+LIBSTATIC_Timer_UPDATE_INTERVAL_1000 = 1000
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER Class Initialization
+Timer Class Initialization
 ------------------------------------------------------------------------------------------------]]--
-local TIMER = ZO_InitializingObject:Subclass()
+local Timer = ZO_InitializingObject:Subclass()
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:Initialize()
+Timer:Initialize()
 Inputs:				Options                             - Table containing all of the options
                                                     - uniqueName
                                                     - (optional) timerType
@@ -56,10 +56,10 @@ Inputs:				Options                             - Table containing all of the opt
 Outputs:			None
 Description:	Initializes the object.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:Initialize(Options)
+function Timer:Initialize(Options)
   self.uniqueName = Options.uniqueName
-  self.timerType = Options.timerType or LIBSTATIC_TIMER_TYPE_COUNT_UP
-  self.updateInterval = Options.updateInterval or LIBSTATIC_TIMER_UPDATE_INTERVAL_200
+  self.timerType = Options.timerType or LIBSTATIC_Timer_TYPE_COUNT_UP
+  self.updateInterval = Options.updateInterval or LIBSTATIC_Timer_UPDATE_INTERVAL_200
   self.duration = Options.duration
   self.updateCallback = Options.updateCallback or function() end
   self.finishedCallback = Options.finishedCallback or function() end
@@ -72,56 +72,56 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:IsInitialized()
+Timer:IsInitialized()
 Inputs:				None
 Outputs:			initialized                         - bool for timer initialized state
 Description:	Returns true if the timer has been successfully initialized.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:IsInitialized()
+function Timer:IsInitialized()
   return self.initialized
 end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:IsRunning()
+Timer:IsRunning()
 Inputs:				None
 Outputs:			initialized                         - bool for timer running state
 Description:	Returns true if the timer is running.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:IsRunning()
+function Timer:IsRunning()
   return self.running
 end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:IsPaused()
+Timer:IsPaused()
 Inputs:				None
 Outputs:			initialized                         - bool for timer paused state
 Description:	Returns true if the timer is paused.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:IsPaused()
+function Timer:IsPaused()
   return self.paused
 end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:IsFinished()
+Timer:IsFinished()
 Inputs:				None
 Outputs:			initialized                         - bool for timer finished state
 Description:	Returns true if the timer is finished.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:IsFinished()
+function Timer:IsFinished()
   return self.finished
 end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:SetDuration(duration)
+Timer:SetDuration(duration)
 Inputs:				duration                            - duration to set (ms)
 Outputs:			None
 Description:	Sets a new duration value rounded down. This cannot be done if the timer is running or paused. Stop the timer first.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:SetDuration(duration)
+function Timer:SetDuration(duration)
   if duration < 0 or self.running or self.paused then return end
 
   self.duration = math.floor(duration)
@@ -129,12 +129,12 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:SetAccumulator(accumulator)
+Timer:SetAccumulator(accumulator)
 Inputs:				accumulator                         - accumulator to set (ms)
 Outputs:			None
 Description:	Sets a new accumulator value. This cannot be done if the timer is running or paused. Stop the timer first.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:SetAccumulator(accumulator)
+function Timer:SetAccumulator(accumulator)
   if accumulator < 0 or self.running or self.paused then return end
 
   self.accumulator = accumulator
@@ -142,19 +142,19 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:Start()
+Timer:Start()
 Inputs:				None
 Outputs:			None
 Description:	Starts the timer with the current object settings. Timer must not be running or paused.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:Start()
+function Timer:Start()
   if self.running or self.paused then return end
 
   self.startTime = GetFrameTimeMilliseconds()
   self.endTime = self.startTime + self.duration
   self.running = true
 
-  if self.timerType == LIBSTATIC_TIMER_TYPE_COUNT_UP then
+  if self.timerType == LIBSTATIC_Timer_TYPE_COUNT_UP then
     self.accumulator = 0
   else
     self.accumulator = self.duration
@@ -165,12 +165,12 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:TimerUpdate()
+Timer:TimerUpdate()
 Inputs:				None
 Outputs:			None
 Description:	Updates the accumulator and checks for the finished condition. Calls proper callbacks.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:TimerUpdate()
+function Timer:TimerUpdate()
   local now = GetFrameTimeMilliseconds()
 
   if now >= self.endTime then
@@ -179,7 +179,7 @@ function TIMER:TimerUpdate()
     EM:UnregisterForUpdate(self.uniqueName)
     self.finishedCallback(self.uniqueName)
   else
-    if self.timerType == LIBSTATIC_TIMER_TYPE_COUNT_UP then
+    if self.timerType == LIBSTATIC_Timer_TYPE_COUNT_UP then
       self.accumulator = now - self.startTime
     else
       self.accumulator = self.endTime - now
@@ -190,12 +190,12 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:Stop()
+Timer:Stop()
 Inputs:				None
 Outputs:			None
 Description:	Stops and resets the timer to pre-provided parameters. Will override running and paused.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:Stop()
+function Timer:Stop()
   self.running = false
   self.paused = false
   self.accumulator = nil
@@ -210,12 +210,12 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-TIMER:Pause(state)
+Timer:Pause(state)
 Inputs:				State                               - (optional) bool to force paused state
 Outputs:			None
 Description:	Pauses/unpauses the timer. If no state is specified then it will be toggled. Only works if currently running or paused.
 ------------------------------------------------------------------------------------------------]]--
-function TIMER:Pause(state)
+function Timer:Pause(state)
   local now = GetFrameTimeMilliseconds()
   if not state then
     self.paused = not self.paused
@@ -241,17 +241,6 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-LibStaticTimerInitialize()
-Inputs:				Options                             - Table containing all of the options
-                                                    - uniqueName
-                                                    - (optional) timerType
-                                                    - (optional) updateInterval (global)
-                                                    - duration (ms)
-                                                    - (optional) updateCallback(uniqueName, accumulator)
-                                                    - (optional) finishedCallback(uniqueName)
-Outputs:			TIMER                               - The new object created.
-Description:	Global function to create a new instance of this object.
+Global template assignment
 ------------------------------------------------------------------------------------------------]]--
-function LibStaticTimerInitialize(Options)
-	return TIMER:New(Options)
-end
+LibStatic.Timer = Timer

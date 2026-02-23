@@ -202,12 +202,6 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-LibStaticPairedListInitialize()
-Inputs:				Choices                             - Table of choices (enums)
-              Values                              - (optional) Table of values
-Outputs:			PL                                  - The new object created.
-Description:	Global function to create a new instance of this object.
+Global template assignment
 ------------------------------------------------------------------------------------------------]]--
-function LibStaticPairedListInitialize(Choices, Values)
-	return PL:New(Choices, Values)
-end
+LibStatic.PairedList = PL
