@@ -1,7 +1,7 @@
 --[[------------------------------------------------------------------------------------------------
 Title:					LibStatic
 Author:					Static_Recharge
-Version:				1.0.1
+Version:				2.0.0
 Description:		Static_Recharge common utility functions.
 
 LS                                                - Object containing all functions, tables, variables, constants and other data managers.
@@ -53,7 +53,7 @@ Description:	Initializes all of the variables, object managers, slash commands a
 function LibStatic:Initialize()
 	-- Static definitions
 	self.addonName = "LibStatic"
-	self.addonVersion = "1.0.1"
+	self.addonVersion = "2.0.0"
 	self.author = "|cFF0000Static_Recharge|r"
   self.chatPrefixColor = "FFFFFF"
 	self.chatTextColor = "FFFFFF"
@@ -72,6 +72,31 @@ Description:	Returns true if the object has been successfully initialized.
 ------------------------------------------------------------------------------------------------]]--
 function LibStatic:IsInitialized()
   return self.initialized
+end
+
+
+--[[------------------------------------------------------------------------------------------------
+LibStatic:ReverseTableLookup(data, value)
+Inputs:				data                                - the table to search
+              search                              - the value to search for
+              subKey                              - (optional) if provided, will be used as the subKey to search
+Outputs:			key                                 - the key for the found value (nillable)
+Description:	Returns the key or nil of the found value.
+------------------------------------------------------------------------------------------------]]--
+function LibStatic:ReverseTableLookup(data, search, subKey)
+  if subKey then
+    for key, value in pairs(data) do
+      if value[subKey] == search then
+        return key
+      end
+    end
+  else
+    for key, value in pairs(data) do
+      if value == search then
+        return key
+      end
+    end
+  end
 end
 
 
