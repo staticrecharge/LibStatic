@@ -122,11 +122,9 @@ function PairedList:GetChoiceByValue(value)
   local index
   for i, v in ipairs(self.Values) do
     if v == value then
-      index = i
-      break
+      return self.Choices[index]
     end
   end
-  return self.Choices[index]
 end
 
 

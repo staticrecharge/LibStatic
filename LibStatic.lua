@@ -6,6 +6,7 @@ Description:		Static_Recharge common utility functions.
 
 LS                                                - Object containing all functions, tables, variables, constants and other data managers.
 ├─ :IsInitialized()                               - Returns true if the object has been successfully initialized.
+├─ :ReverseTableLookup(data, value)               - Returns the key or nil of the found value.
 ├─ :StringConvert(input, returnType)              - Returns a string friendly converted input or the input if no change needed.
 ├─ :PairedListNew(Choices, Values)                - Returns a new PairedList object.
 ├─ :ChatNew(Options)                              - Returns a new Chat object.
