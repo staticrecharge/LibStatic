@@ -170,7 +170,7 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-LibStatic:Sort(list, sortType)
+LibStatic:Sort(list, sortType, sortKey)
 Inputs:				list                                - the list to sort
               sortType                            - how to sort (globals)
               sortKey                             - key to sort by (optional)
