@@ -21,13 +21,7 @@ PairedList                                                - Object containing al
 --[[------------------------------------------------------------------------------------------------
 Globals
 ------------------------------------------------------------------------------------------------]]--
--- for use with PairedList:Sort
-LIBSTATIC_LIST_SORT_MIN = 1
-LIBSTATIC_LIST_SORT_MAX = 4
-LIBSTATIC_LIST_SORT_CHOICES_ASCENDING = 1
-LIBSTATIC_LIST_SORT_CHOICES_DESCENDING = 2
-LIBSTATIC_LIST_SORT_VALUE_ASCENDING = 3
-LIBSTATIC_LIST_SORT_VALUE_DESCENDING = 4
+
 
 --[[------------------------------------------------------------------------------------------------
 PairedList Class Initialization
@@ -119,10 +113,9 @@ Outputs:			choice                              - Choice found by value
 Description:	Returns the matching choice from the paired list.
 ------------------------------------------------------------------------------------------------]]--
 function PairedList:GetChoiceByValue(value)
-  local index
   for i, v in ipairs(self.Values) do
     if v == value then
-      return self.Choices[index]
+      return self.Choices[i]
     end
   end
 end
@@ -162,25 +155,21 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-PairedList:Sort(sortType)
+PairedList:Sort(sortType, sortKey)
 Inputs:				sortType                            - how to sort (globals)
+              sortKey                             - key to sort by (optional) Default "choice"
 Outputs:			None
-Description:	Sorts the paired list by the specified sortType (use globals). Defaults to LIBSTATIC_LIST_SORT_CHOICES_ASCENDING
+Description:	Sorts the paired list by the specified sortType (use globals). Defaults to LIBSTATIC_LIST_SORT_ASCENDING
 ------------------------------------------------------------------------------------------------]]--
-function PairedList:Sort(sortType)
+function PairedList:Sort(sortType, sortKey)
   -- set default if not specified
-  if sortType == nil then sortType = LIBSTATIC_LIST_SORT_CHOICES_ASCENDING end
+  if sortType == nil then sortType = LIBSTATIC_LIST_SORT_ASCENDING end
   
   -- check range
   if sortType < LIBSTATIC_LIST_SORT_MIN or sortType > LIBSTATIC_LIST_SORT_MAX then return end
 
-  -- sort functions
-  local Sorts = {
-    function(a, b) return a.choice < b.choice end,
-    function(a, b) return a.choice > b.choice end,
-    function(a, b) return a.value < b.value end,
-    function(a, b) return a.value > b.value end,
-  }
+  -- check sortKey
+  if not sortKey then sortKey = "choice" end
 
   -- merge the lists to sort easy
   local Merged = {}
@@ -189,7 +178,7 @@ function PairedList:Sort(sortType)
   end
 
   -- sort the merged list
-  table.sort(Merged, Sorts[sortType])
+  LibStatic:Sort(Merged, sortType, sortKey)
 
   -- unmerge and update data
   local Choices = {}

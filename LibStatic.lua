@@ -11,6 +11,8 @@ LS                                                - Object containing all functi
 ├─ :PairedListNew(Choices, Values)                - Returns a new PairedList object.
 ├─ :ChatNew(Options)                              - Returns a new Chat object.
 ├─ :TimerNew(Options)                             - Returns a new Timer object.
+├─ :LibStatic:StringConvert(input, returnType)    - Returns a string friendly converted input or the input if no change needed.
+├─ :LibStatic:Sort(list, sortType)                - Sorts the list by the specified sortType (use globals). Defaults to LIBSTATIC_LIST_SORT_ASCENDING
 └─ :Test(...)                                     - For internal add-on testing only.
 ------------------------------------------------------------------------------------------------]]--
 
@@ -25,7 +27,7 @@ local EM = EVENT_MANAGER
 --[[------------------------------------------------------------------------------------------------
 Globals
 ------------------------------------------------------------------------------------------------]]--
--- for use with LS:StringConvert
+-- for use with LibStatic:StringConvert
 LIBSTATIC_BOOL_TYPE_MIN = 1
 LIBSTATIC_BOOL_TYPE_MAX = 7
 LIBSTATIC_BOOL_TYPE_TRUE_FALSE = 1
@@ -35,6 +37,12 @@ LIBSTATIC_BOOL_TYPE_ON_OFF = 4
 LIBSTATIC_BOOL_TYPE_ENABLED_DISABLED = 5
 LIBSTATIC_BOOL_TYPE_PLUS_MINUS = 6
 LIBSTATIC_BOOL_TYPE_ACTIVE_INACTIVE = 7
+
+-- for use with LibStatic:Sort and PairedList:Sort
+LIBSTATIC_LIST_SORT_MIN = 1
+LIBSTATIC_LIST_SORT_MAX = 2
+LIBSTATIC_LIST_SORT_ASCENDING = 1
+LIBSTATIC_LIST_SORT_DESCENDING = 2
 
 
 --[[------------------------------------------------------------------------------------------------
@@ -59,6 +67,25 @@ function LibStatic:Initialize()
   self.chatPrefixColor = "FFFFFF"
 	self.chatTextColor = "FFFFFF"
 
+  -- sort functions
+  self.Sorts = {
+    function(a, b) return a < b end,
+    function(a, b) return a > b end,
+    function(a, b) return a < b end,
+    function(a, b) return a > b end,
+  }
+
+  -- Module Initialization
+  local Options = {
+		addonIdentifier = "LibStatic",
+		prefixColor = "FFFFFF",
+		textColor = "FFFFFF",
+		chatEnabled = true,
+		debugEnabled = false,
+	}
+	self.Chat = self.CHAT:New(Options)
+
+
   SLASH_COMMANDS["/lstest"] = function(...) self:Test(...) end
 
   self.initialized = true
@@ -77,7 +104,7 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
-LibStatic:ReverseTableLookup(data, value)
+LibStatic:ReverseTableLookup(data, search, subKey)
 Inputs:				data                                - the table to search
               search                              - the value to search for
               subKey                              - (optional) if provided, will be used as the subKey to search
@@ -138,6 +165,35 @@ function LibStatic:StringConvert(input, returnType)
   -- if false
   else
     return Responses[returnType][2]
+  end
+end
+
+
+--[[------------------------------------------------------------------------------------------------
+LibStatic:Sort(list, sortType)
+Inputs:				list                                - the list to sort
+              sortType                            - how to sort (globals)
+              sortKey                             - key to sort by (optional)
+Outputs:			None
+Description:	Sorts the list by the specified sortType (use globals). Defaults to LIBSTATIC_LIST_SORT_ASCENDING
+------------------------------------------------------------------------------------------------]]--
+function LibStatic:Sort(list, sortType, sortKey)
+  -- set default if not specified
+  if sortType == nil then sortType = LIBSTATIC_LIST_SORT_ASCENDING end
+  
+  -- check range
+  if sortType < LIBSTATIC_LIST_SORT_MIN or sortType > LIBSTATIC_LIST_SORT_MAX then 
+    self.Chat:Msg("Sort type out of range.")
+    return
+  end
+
+  -- sort the list
+  if sortKey then
+    table.sort(list, function(a, b)
+      return self.Sorts[sortType](a[sortKey], b[sortKey])
+    end)
+  else
+    table.sort(list, self.Sorts[sortType])
   end
 end
 
