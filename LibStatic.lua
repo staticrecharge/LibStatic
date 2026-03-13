@@ -83,7 +83,7 @@ function LibStatic:Initialize()
 		chatEnabled = true,
 		debugEnabled = false,
 	}
-	self.Chat = self.CHAT:New(Options)
+	self.Chat = self:ChatNew(Options)
 
 
   SLASH_COMMANDS["/lstest"] = function(...) self:Test(...) end
@@ -199,28 +199,60 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
+LibStatic:TimerNew(Options)
+Inputs:				Options                             - Table containing all of the options
+                                                    - uniqueName
+                                                    - (optional) timerType
+                                                    - (optional) updateInterval (global)
+                                                    - duration (ms)
+                                                    - (optional) updateCallback(uniqueName, accumulator)
+                                                    - (optional) finishedCallback(uniqueName)
+Outputs:			Timer                                  - New timer object
+Description:	Initializes the object with given inputs.
+------------------------------------------------------------------------------------------------]]--
+function LibStatic:TimerNew(Options)
+  return self.TIMER:New(Options)
+end
+
+
+--[[------------------------------------------------------------------------------------------------
+LibStatic:ChatNew(Options)
+Inputs:				Options                             - Table containing parameters
+              ├─ .addonIdentifier                   - (optional) addonIdentifier
+              ├─ .prefixColor                       - (optional) Prefix Hexcode color
+              ├─ .textColor                         - (optional) Chat Hexcode color
+              ├─ .chatEnabled                       - (optional) bool that enables chat
+              └─ .debugEnabled                      - (optional) bool that enables debug
+Outputs:			Chat                                  - New chat object
+Description:	Initializes the object with given inputs.
+<<prefixColor>>[<<addonIdentifier>>]: <<textColor>><<message>>
+------------------------------------------------------------------------------------------------]]--
+function LibStatic:ChatNew(Options)
+  return self.CHAT:New(Options)
+end
+
+
+--[[------------------------------------------------------------------------------------------------
+LibStatic:PairedListNew(Choices, Values)
+Inputs:				Choices                             - Table of choices (enums)
+              Values                              - (optional) Table of values
+Outputs:			PairedList                          - New paired list object
+Description:	Initializes the object with given inputs.
+------------------------------------------------------------------------------------------------]]--
+function LibStatic:PairedListNew(Choices, Values)
+  return self.PAIREDLIST:New(Choices, Values)
+end
+
+
+--[[------------------------------------------------------------------------------------------------
 LibStatic:Test(...)
 Inputs:				...							                    - Various test inputs
 Outputs:			...                                 - Various test outputs
 Description:	For internal add-on testing only.
 ------------------------------------------------------------------------------------------------]]--
 function LibStatic:Test(...)
-  self.chat = self.CHAT:New()
-
-  local Options = {
-    uniqueName = "LibStaticTimer",
-    duration = 30000,
-    timerType = LIBSTATIC_TIMER_TYPE_COUNT_DOWN,
-    updateInterval = LIBSTATIC_TIMER_UPDATE_INTERVAL_1000,
-    updateCallback = function(uniqueName, accumulator) self.chat:Msg(accumulator) end,
-    finishedCallback = function(uniqueName) self.chat:Msg(uniqueName) end,
-  }
-
-  self.timer = self:TimerNew(Options)
-  self.timer:Start()
+  
 end
-
--- /script LibStatic.timer:Pause()
 
 
 --[[------------------------------------------------------------------------------------------------

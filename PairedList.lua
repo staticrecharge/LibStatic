@@ -192,6 +192,46 @@ end
 
 
 --[[------------------------------------------------------------------------------------------------
+PairedList:GetSelectedChoicesByValue(values)
+Inputs:				values                              - Table of values to pick out
+Outputs:			choices                             - Table of selected choices to pick out
+Description:	Returns a table of selected choices by given list of values. Suitable for multi select dropdown menu usage.
+------------------------------------------------------------------------------------------------]]--
+function PairedList:GetSelectedChoicesByValues(values)
+  local choices = {}
+  for valueIndex, value in ipairs(self.Values) do
+    for selectedIndex, selection in ipairs(values) do
+      if value == selection then
+        table.insert(choices, self.Choices[valueIndex])
+        break
+      end
+    end
+  end
+  return choices
+end
+
+
+--[[------------------------------------------------------------------------------------------------
+PairedList:GetSelectedValuesByChoices(choices)
+Inputs:				choices                             - Table of choices to pick out
+Outputs:			values                              - Table of selected values to pick out
+Description:	Returns a table of selected values by given list of choices. Suitable for multi select dropdown menu usage.
+------------------------------------------------------------------------------------------------]]--
+function PairedList:GetSelectedValuesByChoices(choices)
+  local values = {}
+  for choiceIndex, choice in ipairs(self.Choices) do
+    for selectedIndex, selection in ipairs(choices) do
+      if choice == selection then
+        table.insert(values, self.Values[choiceIndex])
+        break
+      end
+    end
+  end
+  return values
+end
+
+
+--[[------------------------------------------------------------------------------------------------
 Global template assignment
 ------------------------------------------------------------------------------------------------]]--
 LibStatic.PAIREDLIST = PairedList
