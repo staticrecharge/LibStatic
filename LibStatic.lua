@@ -78,6 +78,7 @@ function LibStatic:Initialize()
   -- Module Initialization
   local Options = {
 		addonIdentifier = "LibStatic",
+    addonShortName = "LS",
 		prefixColor = "FFFFFF",
 		textColor = "FFFFFF",
 		chatEnabled = true,
@@ -108,20 +109,38 @@ LibStatic:ReverseTableLookup(data, search, subKey)
 Inputs:				data                                - the table to search
               search                              - the value to search for
               subKey                              - (optional) if provided, will be used as the subKey to search
+              min                                 - (optional) index to start at
+              max                                 - (optional) index to end at
 Outputs:			key                                 - the key for the found value (nillable)
 Description:	Returns the key or nil of the found value.
 ------------------------------------------------------------------------------------------------]]--
-function LibStatic:ReverseTableLookup(data, search, subKey)
+function LibStatic:ReverseTableLookup(data, search, subKey, min, max)
   if subKey then
-    for key, value in pairs(data) do
-      if value[subKey] == search then
-        return key
+    if min and max then
+      for i = min, max do
+        if data[i][subKey] == search then
+          return key
+        end
+      end
+    else
+      for key, value in ipairs(data) do
+        if value[subKey] == search then
+          return key
+        end
       end
     end
   else
-    for key, value in pairs(data) do
-      if value == search then
-        return key
+    if min and max then
+      for i = min, max do
+        if data[i] == search then
+          return key
+        end
+      end
+    else
+      for key, value in ipairs(data) do
+        if value == search then
+          return key
+        end
       end
     end
   end
@@ -251,7 +270,32 @@ Outputs:			...                                 - Various test outputs
 Description:	For internal add-on testing only.
 ------------------------------------------------------------------------------------------------]]--
 function LibStatic:Test(...)
-  
+  self.Chat:Msg(
+    "Test Cases:",
+    "Empty String:",
+    "",
+    "Bool(T):",
+    true,
+    "Bool(F):",
+    false,
+    "Number:",
+    5,
+    "String:",
+    "test string",
+    {
+      "Table Test:",
+      "Empty String:",
+      "",
+      "Bool(T):",
+      true,
+      "Bool(F):",
+      false,
+      "Number:",
+      5,
+      "String:",
+      "test string",
+    }
+  )
 end
 
 
